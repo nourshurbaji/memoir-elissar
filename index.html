@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memoir Elissar — An Archive of the Levant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --tyrian:       #5b1a6e;
+    --tyrian-deep:  #3a0a47;
+    --tyrian-mid:   #7c2d94;
+    --tyrian-soft:  #c9a0d8;
+    --tyrian-pale:  #f5eefa;
+    --tyrian-wash:  #ede0f5;
+    --gold:         #b8860b;
+    --gold-light:   #d4aa3a;
+    --paper:        #faf5ee;
+    --paper-aged:   #f0e6d8;
+    --paper-dark:   #ddd0b8;
+    --ink:          #1a1209;
+    --ink-light:    #5a4a3a;
+    --rule:         rgba(91,26,110,0.18);
+    --serif:        'Playfair Display', Georgia, serif;
+    --body:         'EB Garamond', Georgia, serif;
+    --mono:         'Special Elite', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  /* ══ MASTHEAD ══ */
+  .masthead { border-bottom: 3px double var(--tyrian); }
+
+  .masthead-top-rule {
+    height: 7px;
+    background: linear-gradient(90deg, var(--tyrian-deep) 0%, var(--tyrian) 45%, var(--tyrian-mid) 72%, var(--gold) 100%);
+  }
+
+  .masthead-center {
+    text-align: center; padding: 28px 32px 12px;
+  }
+
+  .masthead-ornament {
+    font-size: 13px; letter-spacing: 0.3em;
+    color: var(--tyrian-soft); font-family: var(--mono);
+    display: block; margin-bottom: 8px;
+  }
+
+  .masthead-title {
+    font-family: var(--serif);
+    font-size: clamp(52px, 10vw, 96px);
+    font-weight: 700; line-height: 0.9;
+    letter-spacing: -0.02em; color: var(--tyrian-deep);
+  }
+
+  .masthead-title em {
+    display: block; font-style: italic; font-weight: 400;
+    font-size: 0.52em; letter-spacing: 0.08em; color: var(--tyrian-mid);
+  }
+
+  .masthead-subtitle {
+    font-family: var(--body); font-style: italic;
+    font-size: 15px; color: var(--tyrian);
+    margin-top: 10px; letter-spacing: 0.03em;
+  }
+
+  .masthead-nav {
+    display: flex; justify-content: center; gap: 0;
+    border-top: 1px solid var(--rule);
+    margin-top: 16px;
+  }
+
+  .masthead-nav a {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--tyrian); text-decoration: none;
+    padding: 10px 20px;
+    border-right: 1px solid var(--rule);
+    transition: background 0.15s;
+  }
+  .masthead-nav a:first-child { border-left: 1px solid var(--rule); }
+  .masthead-nav a:hover { background: var(--tyrian-wash); }
+  .masthead-nav a.active { background: var(--tyrian-deep); color: var(--tyrian-pale); }
+
+  /* ══ GRAPH PORTAL ══ */
+  .graph-portal {
+    position: relative;
+    background: var(--tyrian-deep);
+    overflow: hidden;
+  }
+
+  /* Animated star-field background */
+  .graph-portal::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(201,160,216,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 8%,  rgba(212,170,58,0.5)  0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 15%, rgba(201,160,216,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 72% 25%, rgba(201,160,216,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88% 10%, rgba(212,170,58,0.4)  0%, transparent 100%),
+      radial-gradient(1px 1px at 8%  60%, rgba(201,160,216,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 55%, rgba(201,160,216,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 48% 70%, rgba(212,170,58,0.3)  0%, transparent 100%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .portal-header {
+    position: relative; z-index: 2;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding: 28px 32px 16px;
+    border-bottom: 1px solid rgba(201,160,216,0.15);
+  }
+
+  .portal-label {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.2em; color: var(--tyrian-soft);
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+
+  .portal-title {
+    font-family: var(--serif); font-size: 28px;
+    font-weight: 700; color: #f0e6f5; line-height: 1.1;
+  }
+
+  .portal-title em { font-style: italic; color: var(--tyrian-soft); }
+
+  .portal-meta {
+    text-align: right;
+  }
+
+  .portal-count {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; color: var(--gold);
+    display: block; margin-bottom: 4px;
+  }
+
+  .portal-desc {
+    font-family: var(--body); font-style: italic;
+    font-size: 13px; color: rgba(201,160,216,0.7);
+    max-width: 280px; line-height: 1.5;
+  }
+
+  /* The canvas container */
+  .graph-stage {
+    position: relative; z-index: 1;
+    height: 580px;
+    cursor: grab;
+  }
+  .graph-stage:active { cursor: grabbing; }
+
+  #graph-canvas {
+    display: block; width: 100%; height: 100%;
+  }
+
+  /* Mini legend inside portal */
+  .portal-legend {
+    position: absolute; bottom: 16px; left: 20px; z-index: 10;
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+
+  .portal-legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.08em; color: rgba(201,160,216,0.7);
+    text-transform: uppercase; cursor: pointer;
+    transition: color 0.15s;
+  }
+  .portal-legend-item:hover { color: var(--tyrian-soft); }
+  .portal-legend-item.hidden { opacity: 0.3; }
+
+  .portal-legend-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+
+  /* Zoom controls */
+  .portal-controls {
+    position: absolute; bottom: 16px; right: 20px; z-index: 10;
+    display: flex; gap: 4px;
+  }
+
+  .portal-btn {
+    width: 28px; height: 28px;
+    background: rgba(58,10,71,0.8);
+    border: 1px solid rgba(201,160,216,0.25);
+    color: var(--tyrian-soft); cursor: pointer;
+    font-size: 16px; font-family: var(--mono);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .portal-btn:hover { background: var(--tyrian-mid); color: #f0e6f5; }
+
+  /* Node detail tooltip inside portal */
+  .portal-tooltip {
+    position: absolute; top: 70px; right: 20px; z-index: 20;
+    width: 240px;
+    background: rgba(26,8,41,0.95);
+    border: 1px solid rgba(201,160,216,0.2);
+    border-top: 2px solid var(--gold);
+    padding: 14px 16px;
+    transform: translateX(270px);
+    transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
+    pointer-events: none;
+  }
+  .portal-tooltip.open {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .tt-cat {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.16em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 5px;
+  }
+  .tt-name {
+    font-family: var(--serif); font-size: 17px;
+    font-weight: 700; color: #f0e6f5; margin-bottom: 7px; line-height: 1.2;
+  }
+  .tt-desc {
+    font-family: var(--body); font-size: 13px;
+    font-style: italic; color: rgba(201,160,216,0.8);
+    line-height: 1.55; margin-bottom: 10px;
+  }
+  .tt-conns {
+    display: flex; flex-wrap: wrap; gap: 4px;
+    border-top: 1px solid rgba(201,160,216,0.12);
+    padding-top: 8px;
+  }
+  .tt-pill {
+    font-family: var(--mono); font-size: 8px;
+    letter-spacing: 0.06em; padding: 3px 6px;
+    background: rgba(91,26,110,0.5);
+    color: var(--tyrian-soft);
+    border: 1px solid rgba(201,160,216,0.2);
+    cursor: pointer; pointer-events: auto;
+    transition: background 0.12s;
+  }
+  .tt-pill:hover { background: var(--tyrian-mid); color: #f0e6f5; }
+  .tt-close {
+    position: absolute; top: 10px; right: 10px;
+    color: rgba(201,160,216,0.4); cursor: pointer;
+    font-size: 16px; line-height: 1;
+  }
+  .tt-close:hover { color: var(--tyrian-soft); }
+
+  /* Portal CTA */
+  .portal-footer {
+    position: relative; z-index: 2;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 32px;
+    border-top: 1px solid rgba(201,160,216,0.12);
+  }
+
+  .portal-hint {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.1em; color: rgba(201,160,216,0.35);
+    text-transform: uppercase;
+  }
+
+  .portal-cta {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid rgba(184,134,11,0.4);
+    transition: background 0.15s, color 0.15s;
+  }
+  .portal-cta:hover {
+    background: var(--gold); color: var(--tyrian-deep);
+  }
+
+  /* ══ PAGE WRAPPER ══ */
+  .page-wrapper { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ══ SECTION RULE ══ */
+  .section-rule {
+    display: flex; align-items: center; gap: 12px;
+    margin: 36px 0 20px;
+  }
+  .section-rule-label {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    white-space: nowrap;
+    background: var(--tyrian-deep); color: var(--tyrian-pale);
+    padding: 4px 10px;
+  }
+  .section-rule-line { flex: 1; height: 1px; background: var(--tyrian); opacity: 0.25; }
+  .section-rule-note {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; color: var(--tyrian-mid); white-space: nowrap;
+  }
+
+  /* ══ THREE COLUMNS ══ */
+  .three-col { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-bottom: 36px; }
+
+  .card { border-top: 3px solid var(--tyrian); padding-top: 14px; cursor: pointer; transition: opacity 0.15s; }
+  .card:hover { opacity: 0.75; }
+
+  .card-tag {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.14em; color: var(--tyrian-mid);
+    text-transform: uppercase; margin-bottom: 7px;
+  }
+
+  .card-img {
+    width: 100%; aspect-ratio: 4/3;
+    background: var(--tyrian-pale); margin-bottom: 12px;
+    overflow: hidden; border: 1px solid var(--rule);
+  }
+  .card-img svg { width: 100%; height: 100%; }
+
+  .card-headline {
+    font-family: var(--serif); font-size: 20px;
+    font-weight: 700; color: var(--tyrian-deep);
+    line-height: 1.2; margin-bottom: 8px;
+  }
+
+  .card-body {
+    font-size: 14px; color: var(--ink-light);
+    line-height: 1.6; font-style: italic;
+  }
+
+  /* ══ DATA CARD ══ */
+  .data-card {
+    background: var(--tyrian-pale);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--tyrian);
+    padding: 24px; margin-bottom: 36px;
+  }
+  .data-card-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 1px solid var(--rule); padding-bottom: 12px; margin-bottom: 20px;
+  }
+  .data-card-title { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--tyrian-deep); }
+  .data-card-note { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--gold); }
+  .data-bars { display: flex; flex-direction: column; gap: 10px; }
+  .data-bar-row { display: grid; grid-template-columns: 140px 1fr 48px; align-items: center; gap: 12px; }
+  .data-bar-label { font-family: var(--body); color: var(--tyrian); text-align: right; font-style: italic; font-size: 13px; }
+  .data-bar-track { height: 14px; background: var(--tyrian-wash); }
+  .data-bar-fill { height: 100%; background: var(--tyrian); transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+  .data-bar-val { font-family: var(--mono); font-size: 11px; color: var(--tyrian-mid); }
+
+  /* ══ ARCHIVE STRIP ══ */
+  .archive-strip { display: grid; grid-template-columns: repeat(5,1fr); gap: 2px; margin-bottom: 36px; border: 2px solid var(--tyrian); }
+  .archive-thumb { aspect-ratio: 3/4; background: var(--tyrian-pale); position: relative; overflow: hidden; cursor: pointer; transition: opacity 0.15s; }
+  .archive-thumb:hover { opacity: 0.8; }
+  .archive-thumb-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: var(--tyrian-deep); color: var(--tyrian-pale);
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.08em; padding: 4px 6px; text-transform: uppercase;
+  }
+
+  /* ══ FOOTER ══ */
+  .site-footer {
+    border-top: 3px double var(--tyrian);
+    padding: 24px 0 32px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .footer-brand { font-family: var(--serif); font-size: 22px; font-style: italic; color: var(--tyrian-deep); }
+  .footer-note { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--tyrian); max-width: 320px; line-height: 1.8; }
+
+  @media (max-width: 700px) {
+    .three-col { grid-template-columns: 1fr; }
+    .archive-strip { grid-template-columns: repeat(3,1fr); }
+    .masthead-nav a { padding: 8px 10px; font-size: 9px; }
+    .portal-meta { display: none; }
+    .graph-stage { height: 380px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ MASTHEAD ══ -->
+<div class="masthead">
+  <div class="masthead-top-rule"></div>
+  <div class="masthead-center">
+    <span class="masthead-ornament">&#10070; &#10070; &#10070;</span>
+    <h1 class="masthead-title">Memoir<em>Elissar</em></h1>
+    <p class="masthead-subtitle">An archive of the Levant — its peoples, geographies, and enduring memory</p>
+  </div>
+  <nav class="masthead-nav">
+    <a href="index.html" class="active">Front Page</a>
+    <a href="archive/index.html">Archive</a>
+    <a href="graph.html">The Network</a>
+    <a href="data/index.html">Data &amp; Maps</a>
+    <a href="research/index.html">Research</a>
+    <a href="about.html">About</a>
+  </nav>
+</div>
+
+<!-- ══ GRAPH PORTAL ══ -->
+<section class="graph-portal">
+
+  <div class="portal-header">
+    <div>
+      <div class="portal-label">&#9670; Centerpiece</div>
+      <h2 class="portal-title">The Levant <em>Knowledge Graph</em></h2>
+    </div>
+    <div class="portal-meta">
+      <span class="portal-count" id="portal-count"></span>
+      <span class="portal-desc">A living web of historical events, peoples, places, faiths, foods, and routes — click any node to explore its connections.</span>
+    </div>
+  </div>
+
+  <div class="graph-stage">
+    <canvas id="graph-canvas"></canvas>
+
+    <!-- Mini legend -->
+    <div class="portal-legend" id="portal-legend"></div>
+
+    <!-- Node tooltip -->
+    <div class="portal-tooltip" id="portal-tooltip">
+      <span class="tt-close" onclick="closeTooltip()">&#215;</span>
+      <div class="tt-cat" id="tt-cat"></div>
+      <div class="tt-name" id="tt-name"></div>
+      <div class="tt-desc" id="tt-desc"></div>
+      <div class="tt-conns" id="tt-conns"></div>
+    </div>
+
+    <!-- Zoom controls -->
+    <div class="portal-controls">
+      <button class="portal-btn" onclick="gZoom(1.2)">+</button>
+      <button class="portal-btn" onclick="gZoom(0.83)">&#8722;</button>
+      <button class="portal-btn" onclick="gReset()" style="font-size:11px">&#8635;</button>
+    </div>
+  </div>
+
+  <div class="portal-footer">
+    <span class="portal-hint">Click to explore &nbsp;&#183;&nbsp; Drag to pan &nbsp;&#183;&nbsp; Scroll to zoom &nbsp;&#183;&nbsp; Filter by category</span>
+    <a href="graph.html" class="portal-cta">Open full screen &#8594;</a>
+  </div>
+
+</section>
+
+<!-- ══ PAGE CONTENT ══ -->
+<div class="page-wrapper">
+
+  <div class="section-rule">
+    <span class="section-rule-label">Data &amp; Visualizations</span>
+    <span class="section-rule-line"></span>
+    <span class="section-rule-note">Computational analysis</span>
+  </div>
+
+  <div class="data-card">
+    <div class="data-card-header">
+      <span class="data-card-title">Urban Population Growth, Major Levantine Cities</span>
+      <span class="data-card-note">1900–2020 · Public census data</span>
+    </div>
+    <div class="data-bars">
+      <div class="data-bar-row"><span class="data-bar-label">Beirut</span><div class="data-bar-track"><div class="data-bar-fill" style="width:0%" data-w="88%"></div></div><span class="data-bar-val">2.4M</span></div>
+      <div class="data-bar-row"><span class="data-bar-label">Amman</span><div class="data-bar-track"><div class="data-bar-fill" style="width:0%" data-w="100%"></div></div><span class="data-bar-val">4.3M</span></div>
+      <div class="data-bar-row"><span class="data-bar-label">Damascus</span><div class="data-bar-track"><div class="data-bar-fill" style="width:0%" data-w="82%"></div></div><span class="data-bar-val">2.1M</span></div>
+      <div class="data-bar-row"><span class="data-bar-label">Aleppo</span><div class="data-bar-track"><div class="data-bar-fill" style="width:0%" data-w="68%"></div></div><span class="data-bar-val">1.7M</span></div>
+      <div class="data-bar-row"><span class="data-bar-label">Haifa</span><div class="data-bar-track"><div class="data-bar-fill" style="width:0%" data-w="42%"></div></div><span class="data-bar-val">0.9M</span></div>
+      <div class="data-bar-row"><span class="data-bar-label">Latakia</span><div class="data-bar-track"><div class="data-bar-fill" style="width:0%" data-w="24%"></div></div><span class="data-bar-val">0.4M</span></div>
+    </div>
+  </div>
+
+  <div class="section-rule">
+    <span class="section-rule-label">Archive</span>
+    <span class="section-rule-line"></span>
+    <span class="section-rule-note">Maps · Press · Images · Journals</span>
+  </div>
+
+  <div class="three-col">
+    <div class="card">
+      <span class="card-tag">Cartography</span>
+      <div class="card-img">
+        <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="210" fill="#f0e6f5"/>
+          <path d="M60 40 Q90 30 120 50 Q150 35 170 55 Q195 45 220 60 L215 90 Q200 100 185 85 Q165 95 145 80 Q120 90 100 75 Q80 88 60 78 Z" fill="none" stroke="#5b1a6e" stroke-width="1.5"/>
+          <path d="M130 50 Q125 70 128 95 Q132 120 125 145 Q120 160 124 185" stroke="#7ba8c4" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <circle cx="110" cy="85" r="3" fill="#5b1a6e"/><circle cx="148" cy="92" r="3" fill="#5b1a6e"/><circle cx="90" cy="118" r="3" fill="#5b1a6e"/>
+          <text x="115" y="84" font-family="Special Elite,monospace" font-size="7" fill="#3a0a47">Beirut</text>
+          <text x="153" y="91" font-family="Special Elite,monospace" font-size="7" fill="#3a0a47">Damascus</text>
+          <circle cx="230" cy="160" r="18" fill="none" stroke="#7c2d94" stroke-width="0.8"/>
+          <line x1="230" y1="142" x2="230" y2="178" stroke="#7c2d94" stroke-width="0.8"/>
+          <line x1="212" y1="160" x2="248" y2="160" stroke="#7c2d94" stroke-width="0.8"/>
+          <text x="226" y="137" font-family="Special Elite,monospace" font-size="8" fill="#7c2d94">N</text>
+        </svg>
+      </div>
+      <h3 class="card-headline">French Mandate Maps, 1920–1943</h3>
+      <p class="card-body">Surveying colonial cartography and its contested borderlines across Greater Syria and Lebanon.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tag">Press Archive</span>
+      <div class="card-img">
+        <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="210" fill="#f0e6f5"/>
+          <rect x="15" y="12" width="250" height="186" fill="#faf5ee" stroke="#5b1a6e" stroke-width="0.8"/>
+          <rect x="15" y="12" width="250" height="28" fill="#3a0a47"/>
+          <text x="32" y="30" font-family="Special Elite,monospace" font-size="11" fill="#c9a0d8" letter-spacing="1">AL-NAHAR</text>
+          <text x="195" y="30" font-family="Special Elite,monospace" font-size="7" fill="#d4aa3a">&#x31;&#x39;&#x35;&#x36;</text>
+          <line x1="105" y1="45" x2="105" y2="188" stroke="#c9a0d8" stroke-width="0.5"/>
+          <rect x="22" y="46" width="76" height="5" fill="#3a0a47" rx="1"/>
+          <ellipse cx="143" cy="110" rx="22" ry="26" fill="#d4a87a"/>
+          <ellipse cx="143" cy="96" rx="22" ry="14" fill="#1a0829"/>
+          <ellipse cx="150" cy="107" rx="4" ry="3" fill="white"/><ellipse cx="151" cy="107" rx="2.5" ry="2.5" fill="#1a0829"/>
+          <path d="M135 118 Q143 124 151 118" stroke="#3a0a47" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="card-headline">Levantine Press, 1900–1975</h3>
+      <p class="card-body">Al-Nahar, Al-Hayat, and Falastin — digitised front pages from a century of Levantine journalism.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tag">Research note</span>
+      <div class="card-img">
+        <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="210" fill="#f0e6f5"/>
+          <circle cx="140" cy="105" r="18" fill="none" stroke="#5b1a6e" stroke-width="1.5"/>
+          <text x="132" y="109" font-family="Special Elite,monospace" font-size="8" fill="#5b1a6e">Beirut</text>
+          <circle cx="70" cy="65" r="12" fill="none" stroke="#3a0a47" stroke-width="1.2"/>
+          <text x="55" y="69" font-family="Special Elite,monospace" font-size="7" fill="#3a0a47">Tripoli</text>
+          <circle cx="210" cy="72" r="14" fill="none" stroke="#3a0a47" stroke-width="1.2"/>
+          <text x="195" y="76" font-family="Special Elite,monospace" font-size="7" fill="#3a0a47">Damascus</text>
+          <circle cx="200" cy="155" r="12" fill="none" stroke="#b8860b" stroke-width="1.2"/>
+          <text x="186" y="159" font-family="Special Elite,monospace" font-size="7" fill="#b8860b">Amman</text>
+          <line x1="122" y1="95" x2="80" y2="73" stroke="#7c2d94" stroke-width="0.8" stroke-dasharray="3,2"/>
+          <line x1="158" y1="95" x2="196" y2="80" stroke="#7c2d94" stroke-width="0.8" stroke-dasharray="3,2"/>
+          <line x1="152" y1="118" x2="190" y2="147" stroke="#7c2d94" stroke-width="0.8" stroke-dasharray="3,2"/>
+          <line x1="128" y1="118" x2="82" y2="148" stroke="#7c2d94" stroke-width="0.8" stroke-dasharray="3,2"/>
+          <text x="15" y="195" font-family="Special Elite,monospace" font-size="8" fill="#5b1a6e" opacity="0.7">Migration network · 1948–1975</text>
+        </svg>
+      </div>
+      <h3 class="card-headline">Migration Networks &amp; Diaspora Mapping</h3>
+      <p class="card-body">Network analysis of Levantine emigration patterns using NLP-processed genealogical records.</p>
+    </div>
+  </div>
+
+  <div class="section-rule">
+    <span class="section-rule-label">Library</span>
+    <span class="section-rule-line"></span>
+  </div>
+
+  <div class="archive-strip">
+    <div class="archive-thumb"><div class="archive-thumb-label">Books</div></div>
+    <div class="archive-thumb"><div class="archive-thumb-label">Photographs</div></div>
+    <div class="archive-thumb"><div class="archive-thumb-label">Journals</div></div>
+    <div class="archive-thumb"><div class="archive-thumb-label">Maps</div></div>
+    <div class="archive-thumb"><div class="archive-thumb-label">Ephemera</div></div>
+  </div>
+
+  <div class="site-footer">
+    <div>
+      <div class="footer-brand">Memoir Elissar</div>
+      <p style="font-family:var(--mono);font-size:10px;color:var(--tyrian);letter-spacing:0.06em;margin-top:4px;">A Digital Humanities Archive · The Levant</p>
+    </div>
+    <div class="footer-note">All primary sources are drawn from public repositories. Data work, interpretive writing, and visual compositions are original research. Named in memory of Elissar, Phoenician princess of Tyre, founder of Carthage — whose people gave the world its most coveted colour.</div>
+  </div>
+
+</div><!-- end page-wrapper -->
+
+<script>
+(function() {
+// ══════════════════════════════════════════
+//  GRAPH DATA & ENGINE (scoped to portal)
+// ══════════════════════════════════════════
+
+const CATEGORIES = {
+  event:    { label: 'Event',     color: '#5b1a6e', border: '#3a0a47' },
+  region:   { label: 'Region',    color: '#0f6e56', border: '#085041' },
+  figure:   { label: 'Figure',    color: '#b8860b', border: '#854f0b' },
+  religion: { label: 'Religion',  color: '#185fa5', border: '#0c447c' },
+  food:     { label: 'Food',      color: '#993c1d', border: '#712b13' },
+  trade:    { label: 'Trade',     color: '#3b6d11', border: '#27500a' },
+  nature:   { label: 'Nature',    color: '#1d9e75', border: '#0f6e56' },
+  transport:{ label: 'Transport', color: '#5f5e5a', border: '#444441' },
+  culture:  { label: 'Culture',   color: '#993556', border: '#72243e' },
+  energy:   { label: 'Energy',    color: '#854f0b', border: '#633806' },
+};
+
+const NODES = [
+  // Regions
+  { id:'levant',        cat:'region',   size:22, label:'The Levant',         desc:'The eastern Mediterranean region encompassing modern Lebanon, Syria, Jordan, Israel, and Palestine — the heart of this archive.' },
+  { id:'phoenicia',     cat:'region',   size:18, label:'Phoenicia',          desc:'Ancient maritime civilization on the Levantine coast, renowned for trade, seafaring, and the invention of the alphabet.' },
+  { id:'tyre',          cat:'region',   size:16, label:'Tyre',               desc:'Ancient Phoenician city-state, origin of Elissar and the Tyrian purple dye trade. Modern Sur, in southern Lebanon.' },
+  { id:'sidon',         cat:'region',   size:15, label:'Sidon',              desc:'Major Phoenician city celebrated for glassblowing and metalwork. Modern Saida, Lebanon.' },
+  { id:'byblos',        cat:'region',   size:15, label:'Byblos',             desc:'One of the oldest continuously inhabited cities. Gave its name to the Bible (Biblos = book). Modern Jbeil, Lebanon.' },
+  { id:'damascus',      cat:'region',   size:17, label:'Damascus',           desc:'Capital of Syria, one of the oldest continuously inhabited cities in the world. Hub of the Umayyad Caliphate.' },
+  { id:'beirut',        cat:'region',   size:16, label:'Beirut',             desc:'Capital of Lebanon, the crossroads of the Levant, the so-called Paris of the Middle East.' },
+  { id:'carthage',      cat:'region',   size:15, label:'Carthage',           desc:'Phoenician colony in modern Tunisia, founded by Elissar (Dido). Became one of antiquity\'s great powers.' },
+  { id:'palestine',     cat:'region',   size:16, label:'Palestine',          desc:'Southern Levant, site of millennia of civilizations, faiths, and contested histories.' },
+  { id:'jerusalem',     cat:'region',   size:18, label:'Jerusalem',          desc:'Holy city for Judaism, Christianity, and Islam. Among the most contested and sacred cities in human history.' },
+  { id:'jordan_river',  cat:'region',   size:13, label:'Jordan River',       desc:'The principal river of the southern Levant, sacred to Judaism, Christianity, and Islam.' },
+  { id:'mesopotamia',   cat:'region',   size:14, label:'Mesopotamia',        desc:'Land between the Tigris and Euphrates, deeply intertwined with Levantine history through trade and conquest.' },
+  { id:'egypt',         cat:'region',   size:13, label:'Egypt',              desc:'Civilization deeply intertwined with Phoenicia through trade — especially cedar and papyrus exchange.' },
+  { id:'bekaa_valley',  cat:'region',   size:14, label:'Bekaa Valley',       desc:'Fertile plateau between the Lebanon and Anti-Lebanon mountain ranges. Breadbasket, wine country, and ancient crossroads.' },
+  { id:'palmyra',       cat:'region',   size:14, label:'Palmyra',            desc:'Ancient desert city in central Syria, hub of the Silk Road and home of Queen Zenobia. UNESCO World Heritage Site.' },
+  { id:'aleppo',        cat:'region',   size:15, label:'Aleppo',             desc:'Syria\'s second city, among the world\'s oldest inhabited places, famed for its souk and citadel.' },
+  { id:'akka',          cat:'region',   size:13, label:'Akka (Acre)',        desc:'Ancient port city in northern Palestine, Crusader capital and Ottoman stronghold.' },
+
+  // Figures
+  { id:'elissar',       cat:'figure',   size:20, label:'Elissar',            desc:'Phoenician princess of Tyre, also known as Dido. Fled her brother Pygmalion and founded Carthage circa 814 BCE. The namesake of this archive.' },
+  { id:'hannibal',      cat:'figure',   size:15, label:'Hannibal Barca',     desc:'Carthaginian general of Phoenician descent. Crossed the Alps with elephants to challenge Rome in the Second Punic War.' },
+  { id:'jezebel',       cat:'figure',   size:13, label:'Jezebel',            desc:'Phoenician princess of Sidon, queen of Israel. Patron of Baal worship, vilified in biblical texts.' },
+  { id:'saladin',       cat:'figure',   size:16, label:'Saladin',            desc:'Kurdish Muslim sultan who united the Levant and recaptured Jerusalem in 1187 CE. Born in Tikrit, ruled from Damascus and Cairo.' },
+  { id:'ibn_battuta',   cat:'figure',   size:14, label:'Ibn Battuta',        desc:'Moroccan scholar who extensively documented the Levant in the 14th century during his legendary 75,000-mile journey.' },
+  { id:'khalil_gibran', cat:'figure',   size:15, label:'Khalil Gibran',      desc:'Lebanese-American poet and painter from Bsharri. Author of The Prophet. Emblem of the Levantine diaspora.' },
+  { id:'zenobia',       cat:'figure',   size:14, label:'Zenobia',            desc:'Queen of Palmyra who led a revolt against Rome in the 3rd century CE, briefly controlling Egypt and much of the Levant.' },
+  { id:'constantine',   cat:'figure',   size:13, label:'Constantine I',      desc:'Roman emperor who legalized Christianity and founded Constantinople, reshaping the Levantine religious landscape.' },
+  { id:'ibrahim_pasha', cat:'figure',   size:13, label:'Ibrahim Pasha',      desc:'Egyptian general who occupied Greater Syria (1831–1840), briefly disrupting Ottoman rule and modernizing the Levant.' },
+
+  // Events
+  { id:'phoenician_alphabet', cat:'event', size:17, label:'Alphabet invention', desc:'The Phoenicians developed the first widely-used alphabetic writing system circa 1050 BCE — ancestor of Greek, Latin, Arabic, and Hebrew scripts.' },
+  { id:'crusades',      cat:'event',   size:16, label:'The Crusades',        desc:'Series of religious wars (1095–1291) fought over control of the Holy Land, transforming the Levantine landscape permanently.' },
+  { id:'ottoman_rule',  cat:'event',   size:15, label:'Ottoman rule',        desc:'The Ottoman Empire controlled most of the Levant from 1516 to 1918, shaping its languages, architecture, and cuisine.' },
+  { id:'arab_revolt',   cat:'event',   size:14, label:'Arab Revolt',         desc:'1916 uprising against Ottoman rule, supported by Britain, leading to the modern Arab states of the Levant.' },
+  { id:'nakba',         cat:'event',   size:15, label:'Al-Nakba',            desc:'The 1948 Palestinian catastrophe — the displacement of over 700,000 Palestinians during the Arab-Israeli war.' },
+  { id:'silk_road',     cat:'event',   size:16, label:'Silk Road',           desc:'Ancient network of trade routes connecting East Asia to the Mediterranean, passing through the Levant for millennia.' },
+  { id:'umayyad_caliphate', cat:'event', size:15, label:'Umayyad Caliphate', desc:'Arab caliphate (661–750 CE) headquartered in Damascus — the first great Islamic empire, spanning Spain to Central Asia.' },
+  { id:'byzantine',     cat:'event',   size:14, label:'Byzantine Empire',    desc:'Eastern Roman Empire that ruled the Levant from the 4th to 7th centuries CE, leaving mosaics, churches, and road networks.' },
+  { id:'french_mandate',cat:'event',   size:14, label:'French Mandate',      desc:'League of Nations mandate (1920–1946) by which France controlled Lebanon and Syria, drawing borders that persist today.' },
+  { id:'nabataeans',    cat:'event',   size:13, label:'Nabataean Kingdom',   desc:'Ancient Arab kingdom (4th c BCE – 106 CE) based in Petra, controlling incense and spice routes through the southern Levant.' },
+
+  // Religions
+  { id:'christianity',  cat:'religion', size:17, label:'Christianity',       desc:'Born in the Levant. From Nazareth and Jerusalem it spread to become the world\'s largest religion.' },
+  { id:'islam',         cat:'religion', size:17, label:'Islam',              desc:'The Levant holds Islam\'s third holiest city (Jerusalem) and was central to the early caliphates.' },
+  { id:'judaism',       cat:'religion', size:17, label:'Judaism',            desc:'Ancient religion originating in the southern Levant. Jerusalem is its holiest city.' },
+  { id:'druze',         cat:'religion', size:13, label:'Druze',              desc:'Esoteric religion originating in 11th-century Cairo, concentrated in the mountains of Lebanon, Syria, and Israel.' },
+  { id:'baal',          cat:'religion', size:13, label:'Baal worship',       desc:'Canaanite deity of storms and fertility, widely worshipped in Phoenicia and across the ancient Levant.' },
+  { id:'maronite',      cat:'religion', size:13, label:'Maronite Church',    desc:'Eastern Catholic church rooted in Lebanon, central to Lebanese identity and political life.' },
+  { id:'sunni_islam',   cat:'religion', size:14, label:'Sunni Islam',        desc:'The majority branch of Islam in the Levant, shaped by Umayyad and Ottoman rule across centuries.' },
+  { id:'alawite',       cat:'religion', size:12, label:'Alawite',            desc:'Syncretic offshoot of Shia Islam, concentrated in coastal Syria. Central to modern Syrian political history.' },
+
+  // Food
+  { id:'hummus',        cat:'food',    size:14, label:'Hummus',              desc:'Chickpea-based dish whose origins are fiercely contested between Levantine nations. A cultural and culinary cornerstone.' },
+  { id:'zaatar',        cat:'food',    size:13, label:'Za\'atar',            desc:'Wild thyme herb mix central to Levantine cuisine and foraging culture. Used as a spread, rub, and medicine.' },
+  { id:'olive_oil',     cat:'food',    size:15, label:'Olive oil',           desc:'The Levant has cultivated olives for over 7,000 years. Olive oil was currency, medicine, and sacred ritual.' },
+  { id:'wine',          cat:'food',    size:14, label:'Wine',                desc:'The Bekaa Valley in Lebanon is one of the oldest wine-producing regions in the world, dating to Phoenician times.' },
+  { id:'bread',         cat:'food',    size:13, label:'Flatbread',           desc:'Khubz, pita, markook — flatbread is the foundation of Levantine hospitality and daily life.' },
+  { id:'pomegranate',   cat:'food',    size:13, label:'Pomegranate',         desc:'Symbol of abundance across Levantine cultures, appearing in mythology, religion, and cuisine.' },
+  { id:'arak',          cat:'food',    size:12, label:'Arak',                desc:'Anise-flavored spirit distilled from grapes, the signature drink of the Levant. Called "Lion\'s milk" when mixed with water.' },
+  { id:'meze',          cat:'food',    size:13, label:'Meze',                desc:'The Levantine tradition of small shared dishes — the social architecture of the table.' },
+
+  // Nature
+  { id:'cedar',         cat:'nature',  size:17, label:'Cedar of Lebanon',    desc:'Symbol of Lebanon, appearing on its national flag. Used by Phoenicians for shipbuilding. The Cedars of God forest in Bsharri is ancient.' },
+  { id:'mediterranean_sea', cat:'nature', size:18, label:'Mediterranean Sea', desc:'The sea that made the Phoenicians great. Trade, colonization, and culture moved across its waters for millennia.' },
+  { id:'dead_sea',      cat:'nature',  size:13, label:'Dead Sea',            desc:'The world\'s lowest point and most saline body of water, on the Jordan–Palestine border. Prized for its minerals.' },
+  { id:'mount_hermon',  cat:'nature',  size:13, label:'Mount Hermon',        desc:'Snow-capped peak at the junction of Lebanon, Syria, and Israel. Sacred in multiple religious traditions.' },
+  { id:'murex_snail',   cat:'nature',  size:14, label:'Murex snail',         desc:'Marine gastropod from which Tyrian purple dye was extracted. Millions were harvested along the Phoenician coast.' },
+  { id:'orontes_river', cat:'nature',  size:12, label:'Orontes River',       desc:'Major river flowing through Syria and Lebanon northward into the Mediterranean, irrigating the Bekaa and Homs.' },
+
+  // Trade
+  { id:'purple_dye',    cat:'trade',   size:17, label:'Tyrian purple',       desc:'Extracted from Murex sea snails along the Phoenician coast. Rarer than gold, worn only by royalty. The color of this archive.' },
+  { id:'cedar_trade',   cat:'trade',   size:14, label:'Cedar trade',         desc:'Phoenicians exported Lebanese cedar to Egypt for ships and temples, including Solomon\'s Temple in Jerusalem.' },
+  { id:'glass',         cat:'trade',   size:13, label:'Glassblowing',        desc:'Invented in Sidon circa 1st century BCE. Transformed trade and domestic life across the ancient world.' },
+  { id:'papyrus',       cat:'trade',   size:13, label:'Papyrus trade',       desc:'Byblos was the main port for Egyptian papyrus exports to Greece, giving the city its name — and books theirs.' },
+  { id:'spice_route',   cat:'trade',   size:14, label:'Spice routes',        desc:'The Levant was the western terminus of the spice trade from India and Arabia, enriching its ports for centuries.' },
+  { id:'incense_trade', cat:'trade',   size:12, label:'Incense trade',       desc:'Frankincense and myrrh from Arabia and the Horn of Africa moved through the Levant to Egypt and the Mediterranean.' },
+
+  // Culture
+  { id:'arabic_language', cat:'culture', size:16, label:'Arabic language',  desc:'Semitic language spoken across the Levant, shaped by the Quran and centuries of literary tradition.' },
+  { id:'dabke',         cat:'culture', size:13, label:'Dabke',               desc:'Traditional Levantine line dance, performed at celebrations. A shared heritage of Lebanon, Syria, Palestine, and Jordan.' },
+  { id:'oud',           cat:'culture', size:13, label:'Oud',                 desc:'Ancestor of the European lute. The oud is central to Levantine and Arab musical traditions.' },
+  { id:'hammam',        cat:'culture', size:13, label:'Hammam',              desc:'Traditional bathhouse culture inherited from Roman and Byzantine traditions, central to Levantine social life.' },
+  { id:'mosaics',       cat:'culture', size:14, label:'Byzantine mosaics',   desc:'The Levant produced extraordinary Byzantine mosaic art. The Madaba Map in Jordan depicts the Holy Land in tile.' },
+  { id:'arabic_poetry', cat:'culture', size:14, label:'Arabic poetry',       desc:'The qasida form and the Mu\'allaqat are foundational to Levantine literary tradition, predating Islam.' },
+  { id:'souk',          cat:'culture', size:13, label:'Souk',                desc:'The covered market, heart of every Levantine city. Commerce, community, and culture concentrated in one space.' },
+
+  // Transport
+  { id:'phoenician_ships', cat:'transport', size:15, label:'Phoenician ships', desc:'Masters of the sea — Phoenicians built biremes capable of open-ocean navigation and circumnavigated Africa circa 600 BCE.' },
+  { id:'camel_caravan', cat:'transport', size:14, label:'Camel caravans',    desc:'The camel made overland trade across the Levant and Arabia viable, transforming commerce from the 1st millennium BCE.' },
+  { id:'roman_roads',   cat:'transport', size:13, label:'Roman roads',       desc:'Rome built an extensive road network across the Levant, many of which remain in use as modern roads.' },
+];
+
+const EDGES = [
+  // Phoenicia
+  ['phoenicia','tyre'], ['phoenicia','sidon'], ['phoenicia','byblos'],
+  ['phoenicia','carthage'], ['phoenicia','levant'], ['phoenicia','purple_dye'],
+  ['phoenicia','cedar_trade'], ['phoenicia','phoenician_alphabet'],
+  ['phoenicia','phoenician_ships'], ['phoenicia','mediterranean_sea'],
+  ['phoenicia','glass'], ['phoenicia','papyrus'],
+  // Levant hub
+  ['levant','damascus'], ['levant','beirut'], ['levant','palestine'],
+  ['levant','bekaa_valley'], ['levant','jordan_river'], ['levant','mediterranean_sea'],
+  ['levant','silk_road'], ['levant','arabic_language'], ['levant','olive_oil'],
+  ['levant','cedar'], ['levant','aleppo'], ['levant','jerusalem'],
+  // Elissar
+  ['elissar','tyre'], ['elissar','carthage'], ['elissar','phoenicia'],
+  ['elissar','purple_dye'], ['elissar','phoenician_ships'], ['elissar','mediterranean_sea'],
+  // Figures
+  ['hannibal','carthage'], ['hannibal','elissar'], ['hannibal','mediterranean_sea'],
+  ['jezebel','sidon'], ['jezebel','baal'], ['jezebel','tyre'],
+  ['saladin','damascus'], ['saladin','crusades'], ['saladin','islam'], ['saladin','jerusalem'],
+  ['zenobia','palmyra'], ['zenobia','damascus'], ['zenobia','silk_road'],
+  ['ibn_battuta','levant'], ['ibn_battuta','damascus'], ['ibn_battuta','silk_road'],
+  ['khalil_gibran','beirut'], ['khalil_gibran','cedar'], ['khalil_gibran','maronite'],
+  ['constantine','christianity'], ['constantine','byzantine'], ['constantine','jerusalem'],
+  ['ibrahim_pasha','levant'], ['ibrahim_pasha','ottoman_rule'], ['ibrahim_pasha','damascus'],
+  // Religion
+  ['christianity','jerusalem'], ['christianity','levant'], ['christianity','crusades'],
+  ['christianity','jordan_river'], ['christianity','byzantine'],
+  ['islam','damascus'], ['islam','levant'], ['islam','umayyad_caliphate'],
+  ['islam','crusades'], ['islam','jerusalem'],
+  ['judaism','levant'], ['judaism','jordan_river'], ['judaism','jerusalem'],
+  ['baal','phoenicia'], ['baal','tyre'],
+  ['druze','levant'], ['druze','mount_hermon'],
+  ['maronite','beirut'], ['maronite','levant'], ['maronite','cedar'],
+  ['sunni_islam','levant'], ['sunni_islam','umayyad_caliphate'], ['sunni_islam','ottoman_rule'],
+  ['alawite','levant'], ['alawite','damascus'],
+  // Food
+  ['olive_oil','levant'], ['olive_oil','phoenicia'], ['olive_oil','mediterranean_sea'],
+  ['hummus','levant'], ['hummus','palestine'], ['hummus','beirut'],
+  ['zaatar','levant'], ['zaatar','cedar'], ['zaatar','bekaa_valley'],
+  ['wine','bekaa_valley'], ['wine','phoenicia'], ['wine','byblos'],
+  ['bread','levant'], ['bread','bekaa_valley'],
+  ['pomegranate','levant'], ['pomegranate','baal'],
+  ['arak','levant'], ['arak','bekaa_valley'], ['arak','wine'],
+  ['meze','levant'], ['meze','beirut'], ['meze','souk'],
+  // Nature
+  ['cedar','phoenicia'], ['cedar','tyre'], ['cedar','cedar_trade'], ['cedar','bekaa_valley'],
+  ['mediterranean_sea','tyre'], ['mediterranean_sea','sidon'], ['mediterranean_sea','silk_road'],
+  ['dead_sea','jordan_river'], ['dead_sea','palestine'],
+  ['mount_hermon','levant'], ['mount_hermon','jordan_river'],
+  ['murex_snail','purple_dye'], ['murex_snail','tyre'], ['murex_snail','sidon'],
+  ['orontes_river','levant'], ['orontes_river','bekaa_valley'], ['orontes_river','aleppo'],
+  // Trade
+  ['purple_dye','tyre'], ['purple_dye','mediterranean_sea'], ['purple_dye','silk_road'],
+  ['cedar_trade','byblos'], ['cedar_trade','egypt'],
+  ['papyrus','byblos'], ['papyrus','mediterranean_sea'], ['papyrus','egypt'],
+  ['glass','sidon'], ['glass','silk_road'],
+  ['spice_route','silk_road'], ['spice_route','damascus'], ['spice_route','camel_caravan'],
+  ['incense_trade','spice_route'], ['incense_trade','nabataeans'], ['incense_trade','palmyra'],
+  // Events
+  ['phoenician_alphabet','byblos'], ['phoenician_alphabet','papyrus'],
+  ['phoenician_alphabet','arabic_language'],
+  ['crusades','levant'], ['crusades','jerusalem'], ['crusades','roman_roads'], ['crusades','akka'],
+  ['ottoman_rule','levant'], ['ottoman_rule','damascus'], ['ottoman_rule','hammam'],
+  ['ottoman_rule','arabic_language'],
+  ['arab_revolt','ottoman_rule'], ['arab_revolt','levant'], ['arab_revolt','damascus'],
+  ['nakba','palestine'], ['nakba','levant'], ['nakba','jerusalem'],
+  ['silk_road','damascus'], ['silk_road','camel_caravan'], ['silk_road','spice_route'],
+  ['silk_road','palmyra'], ['silk_road','aleppo'],
+  ['umayyad_caliphate','damascus'], ['umayyad_caliphate','arabic_language'],
+  ['umayyad_caliphate','islam'],
+  ['byzantine','levant'], ['byzantine','damascus'], ['byzantine','mosaics'],
+  ['byzantine','roman_roads'], ['byzantine','jerusalem'],
+  ['french_mandate','levant'], ['french_mandate','beirut'], ['french_mandate','damascus'],
+  ['nabataeans','levant'], ['nabataeans','spice_route'], ['nabataeans','camel_caravan'],
+  // Culture
+  ['arabic_language','levant'], ['arabic_language','umayyad_caliphate'],
+  ['dabke','levant'], ['dabke','palestine'], ['dabke','beirut'],
+  ['oud','levant'], ['oud','arabic_language'],
+  ['hammam','damascus'], ['hammam','roman_roads'],
+  ['mosaics','levant'], ['mosaics','christianity'], ['mosaics','byzantine'],
+  ['arabic_poetry','arabic_language'], ['arabic_poetry','levant'],
+  ['souk','damascus'], ['souk','aleppo'], ['souk','levant'],
+  // Transport
+  ['phoenician_ships','tyre'], ['phoenician_ships','sidon'],
+  ['phoenician_ships','cedar'], ['phoenician_ships','mediterranean_sea'],
+  ['camel_caravan','silk_road'], ['camel_caravan','damascus'], ['camel_caravan','spice_route'],
+  ['roman_roads','levant'], ['roman_roads','damascus'], ['roman_roads','byzantine'],
+  // Extra connections
+  ['jerusalem','judaism'], ['jerusalem','christianity'], ['jerusalem','islam'],
+  ['egypt','phoenicia'], ['egypt','cedar_trade'],
+  ['palmyra','silk_road'], ['palmyra','roman_roads'],
+  ['aleppo','silk_road'], ['aleppo','souk'], ['aleppo','ottoman_rule'],
+  ['akka','crusades'], ['akka','mediterranean_sea'],
+  ['bekaa_valley','wine'], ['bekaa_valley','olive_oil'],
+  ['mesopotamia','levant'], ['mesopotamia','silk_road'],
+];
+
+// ═══════════════════════════════════════════════
+//  GRAPH ENGINE
+// ═══════════════════════════════════════════════
+
+const canvas = document.getElementById('graph-canvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+let transform = { x: 0, y: 0, scale: 1 };
+let dragging = false, dragNode = null, lastMouse = { x: 0, y: 0 };
+let selectedNode = null, highlightSet = null, searchQuery = '';
+let hiddenCats = new Set();
+let simSteps = 0;
+const MAX_SIM = 400;
+
+// Build node map and adjacency list
+const nodeMap = {};
+NODES.forEach(n => {
+  nodeMap[n.id] = n;
+  n.x = 0; n.y = 0; n.vx = 0; n.vy = 0;
+});
+
+const adj = {};
+NODES.forEach(n => adj[n.id] = []);
+EDGES.forEach(([a, b]) => {
+  if (nodeMap[a] && nodeMap[b]) {
+    if (!adj[a].includes(b)) adj[a].push(b);
+    if (!adj[b].includes(a)) adj[b].push(a);
+  }
+});
+
+// Degree for sizing hints
+NODES.forEach(n => {
+  n.degree = adj[n.id].length;
+});
+
+function resize() {
+  W = window.innerWidth;
+  H = window.innerHeight - 58;
+  canvas.width = W * devicePixelRatio;
+  canvas.height = H * devicePixelRatio;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+}
+
+function initPositions() {
+  const cx = W / 2, cy = H / 2;
+  // Sort by degree descending — busiest nodes near center
+  const sorted = [...NODES].sort((a, b) => b.degree - a.degree);
+  sorted.forEach((n, i) => {
+    const angle = (i / NODES.length) * 2 * Math.PI + Math.random() * 0.3;
+    const tier = Math.floor(i / 8);
+    const r = 80 + tier * 120 + Math.random() * 60;
+    n.x = cx + r * Math.cos(angle);
+    n.y = cy + r * Math.sin(angle);
+    n.vx = 0; n.vy = 0;
+  });
+  // Anchor the biggest hubs
+  nodeMap['levant'].x = cx;      nodeMap['levant'].y = cy;
+  nodeMap['mediterranean_sea'].x = cx - 200; nodeMap['mediterranean_sea'].y = cy - 100;
+  nodeMap['damascus'].x = cx + 160; nodeMap['damascus'].y = cy - 60;
+  nodeMap['phoenicia'].x = cx - 120; nodeMap['phoenicia'].y = cy + 100;
+  nodeMap['elissar'].x = cx - 55;  nodeMap['elissar'].y = cy - 50;
+  nodeMap['jerusalem'].x = cx + 80; nodeMap['jerusalem'].y = cy + 130;
+  nodeMap['silk_road'].x = cx + 200; nodeMap['silk_road'].y = cy + 80;
+}
+
+// Force-directed simulation
+const REPEL = 4000, ATTRACT = 0.022, CENTER_F = 0.006, DAMPING = 0.80, REST_LEN = 95;
+
+function simulate() {
+  NODES.forEach(n => {
+    let fx = 0, fy = 0;
+    // Gravity toward center
+    fx += (W / 2 - n.x) * CENTER_F;
+    fy += (H / 2 - n.y) * CENTER_F;
+    // Repulsion between all nodes
+    NODES.forEach(m => {
+      if (m === n) return;
+      const dx = n.x - m.x, dy = n.y - m.y;
+      const d2 = dx * dx + dy * dy + 1;
+      const d = Math.sqrt(d2);
+      const f = REPEL / d2;
+      fx += (dx / d) * f;
+      fy += (dy / d) * f;
+    });
+    // Spring attraction along edges
+    adj[n.id].forEach(mid => {
+      const m = nodeMap[mid];
+      if (!m) return;
+      const dx = m.x - n.x, dy = m.y - n.y;
+      const d = Math.sqrt(dx * dx + dy * dy) || 1;
+      const f = (d - REST_LEN) * ATTRACT;
+      fx += (dx / d) * f;
+      fy += (dy / d) * f;
+    });
+    n.vx = (n.vx + fx) * DAMPING;
+    n.vy = (n.vy + fy) * DAMPING;
+  });
+  NODES.forEach(n => {
+    if (n === dragNode) return;
+    n.x += n.vx;
+    n.y += n.vy;
+    // Soft boundary
+    const pad = 40;
+    if (n.x < pad) { n.x = pad; n.vx *= -0.5; }
+    if (n.y < pad) { n.y = pad; n.vy *= -0.5; }
+    if (n.x > W - pad) { n.x = W - pad; n.vx *= -0.5; }
+    if (n.y > H - pad) { n.y = H - pad; n.vy *= -0.5; }
+  });
+}
+
+// Convert world coords to screen coords
+function worldToScreen(wx, wy) {
+  return {
+    x: wx * transform.scale + transform.x,
+    y: wy * transform.scale + transform.y,
+  };
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // ── EDGES (in world space) ──
+  ctx.save();
+  ctx.translate(transform.x, transform.y);
+  ctx.scale(transform.scale, transform.scale);
+
+  EDGES.forEach(([aid, bid]) => {
+    const a = nodeMap[aid], b = nodeMap[bid];
+    if (!a || !b) return;
+    if (hiddenCats.has(a.cat) || hiddenCats.has(b.cat)) return;
+
+    let alpha = 0.14;
+    if (highlightSet) {
+      alpha = (highlightSet.has(aid) && highlightSet.has(bid)) ? 0.65 : 0.03;
+    }
+    if (searchQuery) {
+      const am = a.label.toLowerCase().includes(searchQuery);
+      const bm = b.label.toLowerCase().includes(searchQuery);
+      alpha = (am || bm) ? 0.55 : 0.03;
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.strokeStyle = `rgba(15,110,86,${alpha})`;
+    ctx.lineWidth = 1 / transform.scale;
+    ctx.stroke();
+  });
+
+  // ── NODE CIRCLES (in world space) ──
+  NODES.forEach(n => {
+    if (hiddenCats.has(n.cat)) return;
+    const cat = CATEGORIES[n.cat] || CATEGORIES.event;
+    let nodeAlpha = 1;
+    if (highlightSet && !highlightSet.has(n.id)) nodeAlpha = 0.12;
+    if (searchQuery && !n.label.toLowerCase().includes(searchQuery)) nodeAlpha = 0.1;
+
+    ctx.globalAlpha = nodeAlpha;
+
+    // Gold selection ring
+    if (selectedNode && selectedNode.id === n.id) {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.size + 7, 0, Math.PI * 2);
+      ctx.strokeStyle = '#b8860b';
+      ctx.lineWidth = 2.5 / transform.scale;
+      ctx.stroke();
+    }
+
+    // Circle fill
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
+    ctx.fillStyle = cat.color;
+    ctx.fill();
+    ctx.strokeStyle = cat.border;
+    ctx.lineWidth = 1.5 / transform.scale;
+    ctx.stroke();
+
+    ctx.globalAlpha = 1;
+  });
+
+  ctx.restore();
+
+  // ── LABELS (in screen space — always readable) ──
+  NODES.forEach(n => {
+    if (hiddenCats.has(n.cat)) return;
+
+    const showLabel = true;
+
+    if (!showLabel) return;
+
+    let nodeAlpha = 1;
+    if (highlightSet && !highlightSet.has(n.id)) nodeAlpha = 0.12;
+    if (searchQuery && !n.label.toLowerCase().includes(searchQuery)) nodeAlpha = 0.1;
+
+    const sc = worldToScreen(n.x, n.y);
+    // Don't draw label if node is off-screen
+    if (sc.x < -60 || sc.x > W + 60 || sc.y < -20 || sc.y > H + 20) return;
+
+    const scaledRadius = n.size * transform.scale;
+    const fontSize = Math.max(10, Math.min(13, n.size * 0.82));
+
+    ctx.globalAlpha = nodeAlpha;
+    ctx.font = `${fontSize}px 'Special Elite', monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+
+    // Subtle text shadow for readability on any background
+    ctx.shadowColor = 'rgba(26,18,9,0.85)';
+    ctx.shadowBlur = 3;
+    ctx.fillStyle = '#f5eefa';
+    ctx.fillText(n.label, sc.x, sc.y + scaledRadius + 3);
+
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
+  });
+}
+
+function tick() {
+  if (simSteps < MAX_SIM) { simulate(); simSteps++; }
+  draw();
+  requestAnimationFrame(tick);
+}
+
+// ── INTERACTION ──
+
+function canvasPoint(clientX, clientY) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: (clientX - rect.left - transform.x) / transform.scale,
+    y: (clientY - rect.top  - transform.y) / transform.scale,
+  };
+}
+
+function nodeAt(clientX, clientY) {
+  const { x, y } = canvasPoint(clientX, clientY);
+  for (let i = NODES.length - 1; i >= 0; i--) {
+    const n = NODES[i];
+    if (hiddenCats.has(n.cat)) continue;
+    const dx = x - n.x, dy = y - n.y;
+    if (dx * dx + dy * dy <= (n.size + 8) * (n.size + 8)) return n;
+  }
+  return null;
+}
+
+canvas.addEventListener('mousedown', e => {
+  const node = nodeAt(e.clientX, e.clientY);
+  if (node) { dragNode = node; }
+  else { dragging = true; }
+  lastMouse = { x: e.clientX, y: e.clientY };
+});
+
+canvas.addEventListener('mousemove', e => {
+  const dx = e.clientX - lastMouse.x, dy = e.clientY - lastMouse.y;
+  if (dragNode) {
+    dragNode.x += dx / transform.scale;
+    dragNode.y += dy / transform.scale;
+    dragNode.vx = 0; dragNode.vy = 0;
+  } else if (dragging) {
+    transform.x += dx; transform.y += dy;
+  }
+  lastMouse = { x: e.clientX, y: e.clientY };
+  const hovered = nodeAt(e.clientX, e.clientY);
+  canvas.style.cursor = hovered ? 'pointer' : (dragging ? 'grabbing' : 'grab');
+});
+
+canvas.addEventListener('mouseup', e => {
+  if (!dragging && !dragNode) {
+    const node = nodeAt(e.clientX, e.clientY);
+    if (node) selectNode(node);
+    else { closeDetail(); highlightSet = null; selectedNode = null; }
+  }
+  dragging = false; dragNode = null;
+});
+
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const cx = e.clientX - rect.left, cy = e.clientY - rect.top;
+  const f = e.deltaY < 0 ? 1.1 : 0.91;
+  transform.x = cx - (cx - transform.x) * f;
+  transform.y = cy - (cy - transform.y) * f;
+  transform.scale = Math.max(0.12, Math.min(5, transform.scale * f));
+}, { passive: false });
+
+// Touch
+canvas.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) {
+    const t = e.touches[0];
+    const node = nodeAt(t.clientX, t.clientY);
+    if (node) dragNode = node; else dragging = true;
+    lastMouse = { x: t.clientX, y: t.clientY };
+  }
+}, { passive: true });
+
+canvas.addEventListener('touchmove', e => {
+  if (e.touches.length === 1) {
+    const t = e.touches[0];
+    const dx = t.clientX - lastMouse.x, dy = t.clientY - lastMouse.y;
+    if (dragNode) { dragNode.x += dx / transform.scale; dragNode.y += dy / transform.scale; dragNode.vx = 0; dragNode.vy = 0; }
+    else if (dragging) { transform.x += dx; transform.y += dy; }
+    lastMouse = { x: t.clientX, y: t.clientY };
+  }
+}, { passive: true });
+
+canvas.addEventListener('touchend', e => {
+  if (!dragging && !dragNode && e.changedTouches.length === 1) {
+    const t = e.changedTouches[0];
+    const node = nodeAt(t.clientX, t.clientY);
+    if (node) selectNode(node); else { closeDetail(); highlightSet = null; selectedNode = null; }
+  }
+  dragging = false; dragNode = null;
+}, { passive: true });
+
+// ── SELECT NODE ── (overridden by portal below)
+
+
+
+
+// ── ZOOM / RESET ──
+
+function zoom(f) {
+  transform.x = W / 2 - (W / 2 - transform.x) * f;
+  transform.y = H / 2 - (H / 2 - transform.y) * f;
+  transform.scale = Math.max(0.12, Math.min(5, transform.scale * f));
+}
+
+function resetView() {
+  transform = { x: 0, y: 0, scale: 1 };
+  simSteps = 0;
+  initPositions();
+}
+
+  `${NODES.length} nodes · ${EDGES.length} edges ·`;
+
+// ── INIT ──
+window.addEventListener('resize', () => { resize(); });
+resize();
+initPositions();
+tick();
+
+// ══════════════════════════════════════════
+//  PORTAL-SPECIFIC OVERRIDES
+// ══════════════════════════════════════════
+
+// Update node count display
+document.getElementById('portal-count').textContent =
+  NODES.length + ' nodes · ' + EDGES.length + ' edges';
+
+// Override selectNode to use the portal tooltip instead of the detail panel
+function selectNode(node) {
+  selectedNode = node;
+  highlightSet = new Set([node.id, ...adj[node.id]]);
+  simSteps = 0;
+
+  const cat = CATEGORIES[node.cat] || { label: node.cat };
+  document.getElementById('tt-cat').textContent = cat.label;
+  document.getElementById('tt-name').textContent = node.label;
+  document.getElementById('tt-desc').textContent = node.desc || '';
+
+  const conns = document.getElementById('tt-conns');
+  conns.innerHTML = '';
+  adj[node.id]
+    .map(function(id) { return nodeMap[id]; })
+    .filter(Boolean)
+    .sort(function(a,b) { return a.label.localeCompare(b.label); })
+    .forEach(function(nb) {
+      var pill = document.createElement('div');
+      pill.className = 'tt-pill';
+      pill.textContent = nb.label;
+      pill.onclick = function() { selectNode(nb); };
+      conns.appendChild(pill);
+    });
+
+  document.getElementById('portal-tooltip').classList.add('open');
+}
+
+function closeTooltip() {
+  document.getElementById('portal-tooltip').classList.remove('open');
+  selectedNode = null; highlightSet = null;
+}
+// expose closeTooltip globally for onclick
+window.closeTooltip = closeTooltip;
+
+// Override zoom/reset to use portal names
+window.gZoom = function(f) {
+  transform.x = W/2 - (W/2 - transform.x)*f;
+  transform.y = H/2 - (H/2 - transform.y)*f;
+  transform.scale = Math.max(0.12, Math.min(5, transform.scale * f));
+};
+window.gReset = function() {
+  transform = { x: 0, y: 0, scale: 1 };
+  simSteps = 0;
+  initPositions();
+};
+
+// Build mini legend
+(function buildPortalLegend() {
+  var legend = document.getElementById('portal-legend');
+  Object.entries(CATEGORIES).forEach(function([key, cat]) {
+    var item = document.createElement('div');
+    item.className = 'portal-legend-item';
+    item.innerHTML = '<div class="portal-legend-dot" style="background:' + cat.color + ';border-color:' + cat.border + '"></div>' + cat.label;
+    item.addEventListener('click', function() {
+      if (hiddenCats.has(key)) hiddenCats.delete(key);
+      else hiddenCats.add(key);
+      item.classList.toggle('hidden', hiddenCats.has(key));
+    });
+    legend.appendChild(item);
+  });
+})();
+
+// Resize for portal canvas (height is fixed at graph-stage height)
+function resize() {
+  var stage = document.querySelector('.graph-stage');
+  W = stage.offsetWidth;
+  H = stage.offsetHeight;
+  canvas.width = W * devicePixelRatio;
+  canvas.height = H * devicePixelRatio;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+}
+
+window.addEventListener('resize', resize);
+resize();
+initPositions();
+tick();
+
+})(); // end IIFE
+
+// Animate data bars on scroll
+setTimeout(function() {
+  document.querySelectorAll('.data-bar-fill').forEach(function(bar) {
+    bar.style.width = bar.dataset.w;
+  });
+}, 600);
+</script>
+
+</body>
+</html>
