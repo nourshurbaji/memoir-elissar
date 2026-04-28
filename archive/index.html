@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archive — Memoir Elissar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tyrian: #5b1a6e;
+    --tyrian-light: #7d2a96;
+    --tyrian-pale: #f3eaf6;
+    --gold: #b8860b;
+    --gold-pale: #fdf6e3;
+    --ink: #1a1108;
+    --parchment: #f7f2e8;
+    --parchment-dark: #ede5d0;
+    --muted: #6b5f4a;
+    --border: rgba(91,26,110,0.15);
+    --card-shadow: 0 2px 16px rgba(91,26,110,0.09);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--parchment);
+    font-family: 'EB Garamond', serif;
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    border-bottom: 3px double var(--tyrian);
+    padding: 1rem 2rem 0.75rem;
+    background: var(--parchment);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .masthead-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .site-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--tyrian);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .section-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-left: 1px solid var(--gold);
+    padding-left: 1rem;
+  }
+  .nav-links {
+    margin-left: auto;
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--tyrian); }
+
+  /* PAGE HERO */
+  .archive-hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .archive-kicker {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .archive-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--tyrian);
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .archive-subtitle {
+    font-size: 1.1rem;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 640px;
+    line-height: 1.65;
+  }
+  .section-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0 0;
+  }
+  .section-rule span {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--tyrian);
+    white-space: nowrap;
+  }
+  .section-rule::before, .section-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* FILTER BAR */
+  .filter-zone {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .filter-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 0.65rem;
+  }
+  .filter-row:last-child { margin-bottom: 0; }
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: white;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--tyrian); }
+  .filter-select {
+    padding: 0.45rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: white;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .filter-select:focus { border-color: var(--tyrian); }
+  .chip {
+    padding: 0.28rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: white;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .chip:hover { border-color: var(--tyrian); color: var(--tyrian); }
+  .chip.active { background: var(--tyrian); color: white; border-color: var(--tyrian); }
+  .results-meta {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 0.65rem;
+  }
+  .results-meta span { color: var(--tyrian); }
+
+  /* GRID */
+  .directory {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* FILM CARD */
+  .film-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--tyrian);
+    padding: 1.25rem;
+    transition: box-shadow 0.22s, transform 0.2s;
+  }
+  .film-card:hover {
+    box-shadow: var(--card-shadow);
+    transform: translateY(-2px);
+  }
+  .card-type-badge {
+    display: inline-block;
+    padding: 0.12rem 0.5rem;
+    border: 1px solid var(--border);
+    font-family: 'Special Elite', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.55rem;
+  }
+  .card-type-badge.movie { color: var(--tyrian); border-color: rgba(91,26,110,0.35); }
+  .card-type-badge.play { color: #2d6a4f; border-color: #2d6a4f; }
+  .card-type-badge.documentary { color: #6b3a0e; border-color: #a0522d; }
+  .card-type-badge.musical { color: var(--gold); border-color: var(--gold); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.15rem;
+  }
+  .card-title-ar {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.92rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 0.65rem;
+    direction: rtl;
+    text-align: right;
+  }
+  .card-meta-row {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.45rem;
+    align-items: center;
+  }
+  .meta-pill {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.05em;
+    padding: 0.12rem 0.45rem;
+    background: var(--parchment);
+    border: 1px solid var(--parchment-dark);
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .meta-pill.lb { background:#e8f4e8; border-color:#b2d8b2; color:#1b5e20; }
+  .meta-pill.sy { background:#fff8ee; border-color:#f0d9b0; color:#7c4100; }
+  .meta-pill.ps { background:#e8f0fb; border-color:#b5ccee; color:#0d3b6e; }
+  .meta-pill.eg { background:#fce8ef; border-color:#f0b8cc; color:#7b0022; }
+  .meta-pill.jo { background:#eceef8; border-color:#c0c6e8; color:#1a237e; }
+  .card-note {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.55;
+    font-style: italic;
+    margin: 0.65rem 0 0.8rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 0.65rem;
+  }
+  .card-awards {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.55rem;
+  }
+  .card-awards::before { content: '★  '; }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.8rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--parchment-dark);
+  }
+  .card-platform {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card-access {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    padding: 0.18rem 0.5rem;
+    text-transform: uppercase;
+  }
+  .card-access.free { background:#e8f4e8; color:#1b5e20; border:1px solid #b2d8b2; }
+  .card-access.paid { background:var(--tyrian-pale); color:var(--tyrian); border:1px solid rgba(91,26,110,0.25); }
+  .card-link {
+    display: inline-block;
+    margin-top: 0.55rem;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tyrian);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .card-link:hover { border-bottom-color: var(--tyrian); }
+  .card-runtime {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.58rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .cc-badge {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.04em;
+    padding: 0.1rem 0.4rem;
+    background: #e8f4e8;
+    border: 1px solid #b2d8b2;
+    color: #1b5e20;
+    text-transform: uppercase;
+  }
+  .no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 1.05rem;
+    grid-column: 1 / -1;
+  }
+
+  /* PAGE FOOTER */
+  .site-footer {
+    border-top: 3px double var(--tyrian);
+    text-align: center;
+    padding: 1.5rem 2rem;
+    margin-top: 3rem;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .site-footer a { color: var(--tyrian); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="../index.html" class="site-name">Memoir Elissar</a>
+    <span class="section-label">Archive</span>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="../graph.html">Knowledge Graph</a></li>
+        <li><a href="../data/index.html">Data</a></li>
+        <li><a href="../research/index.html">Research</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="archive-hero">
+  <p class="archive-kicker">Archive — Screen &amp; Stage</p>
+  <h1 class="archive-title">Cinema &amp; Theatre<br>of the Levant</h1>
+  <p class="archive-subtitle">A curated directory of films, plays, and musicals that shaped the cultural memory of the Levant — from the golden age of Egyptian-Lebanese cinema to the realist theatre of Damascus and the satirical stage of Ziad Rahbani.</p>
+  <div class="section-rule">
+    <span>Screen &amp; Stage Directory</span>
+  </div>
+</section>
+
+<div class="filter-zone">
+  <div class="filter-row">
+    <input class="search-box" type="text" id="searchInput" placeholder="Search by title, director, keyword…" oninput="applyFilters()">
+    <select class="filter-select" id="typeFilter" onchange="applyFilters()">
+      <option value="">All types</option>
+      <option value="movie">Film</option>
+      <option value="documentary">Documentary</option>
+      <option value="play">Theatre</option>
+      <option value="musical">Musical</option>
+    </select>
+    <select class="filter-select" id="decadeFilter" onchange="applyFilters()">
+      <option value="">All decades</option>
+      <option value="1940s">1940s</option>
+      <option value="1950s">1950s</option>
+      <option value="1960s">1960s</option>
+      <option value="1970s">1970s</option>
+      <option value="1980s">1980s</option>
+      <option value="1990s">1990s</option>
+      <option value="2000s">2000s</option>
+      <option value="2010s">2010s</option>
+      <option value="2020s">2020s</option>
+    </select>
+    <select class="filter-select" id="countryFilter" onchange="applyFilters()">
+      <option value="">All countries</option>
+      <option value="Lebanon">Lebanon</option>
+      <option value="Syria">Syria</option>
+      <option value="Palestine">Palestine</option>
+      <option value="Jordan">Jordan</option>
+      <option value="Egypt">Egypt</option>
+    </select>
+    <select class="filter-select" id="accessFilter" onchange="applyFilters()">
+      <option value="">Free &amp; paid</option>
+      <option value="Free">Free</option>
+      <option value="Paid">Paid</option>
+    </select>
+  </div>
+  <div class="filter-row" id="genreChips">
+    <span class="chip active" onclick="setGenre('')">All</span>
+    <span class="chip" onclick="setGenre('War &amp; Memory')">War &amp; Memory</span>
+    <span class="chip" onclick="setGenre('Identity')">Identity</span>
+    <span class="chip" onclick="setGenre('Political')">Political</span>
+    <span class="chip" onclick="setGenre('Drama')">Drama</span>
+    <span class="chip" onclick="setGenre('Satire')">Satire</span>
+    <span class="chip" onclick="setGenre('Exile')">Exile</span>
+    <span class="chip" onclick="setGenre('Folk')">Folk</span>
+    <span class="chip" onclick="setGenre('Resistance')">Resistance</span>
+  </div>
+  <div class="results-meta">Showing <span id="countDisplay">0</span> titles</div>
+</div>
+
+<main class="directory">
+  <div class="card-grid" id="cardGrid"></div>
+</main>
+
+<footer class="site-footer">
+  <a href="../index.html">Memoir Elissar</a> &nbsp;·&nbsp; A Digital Humanities Archive of the Levant &nbsp;·&nbsp; All rights to linked works belong to their respective rights holders
+</footer>
+
+<script>
+const FILMS = [
+  {
+    title: "The Dupes",
+    titleAr: "المخدوعون",
+    director: "Tewfik Saleh",
+    year: 1972, decade: "1970s", type: "movie", country: "Syria",
+    genre: ["Resistance", "Political"],
+    language: "Arabic", captions: true, runtime: "107 min",
+    platform: "Mubi", access: "Paid", link: "https://mubi.com",
+    awards: "Nominated for Palme d'Or, Cannes 1972",
+    note: "Based on Ghassan Kanafani's Men in the Sun — three Palestinian men hide in a water tanker crossing the desert. A landmark of Arab political cinema and one of the most devastating films about Palestinian displacement."
+  },
+  {
+    title: "West Beirut",
+    titleAr: "بيروت الغربية",
+    director: "Ziad Doueiri",
+    year: 1998, decade: "1990s", type: "movie", country: "Lebanon",
+    genre: ["War & Memory", "Identity"],
+    language: "Arabic", captions: true, runtime: "106 min",
+    platform: "YouTube", access: "Free", link: "https://www.youtube.com",
+    awards: "FIPRESCI Prize, Cannes 1998",
+    note: "A coming-of-age story set in the first summer of the Lebanese Civil War. Told through the eyes of a 15-year-old boy in West Beirut — funny, heartbreaking, and vivid in its period detail."
+  },
+  {
+    title: "Chronicle of a Disappearance",
+    titleAr: "سجل اختفاء",
+    director: "Elia Suleiman",
+    year: 1996, decade: "1990s", type: "movie", country: "Palestine",
+    genre: ["Identity", "Satire"],
+    language: "Arabic", captions: true, runtime: "88 min",
+    platform: "Mubi", access: "Paid", link: "https://mubi.com",
+    awards: "Best First Film, Venice Film Festival 1996",
+    note: "Suleiman's debut — a diaristic and deadpan portrait of Palestinian life in Nazareth and Jerusalem. Elliptical, melancholic, and quietly devastating in its silences."
+  },
+  {
+    title: "Divine Intervention",
+    titleAr: "يد إلهية",
+    director: "Elia Suleiman",
+    year: 2002, decade: "2000s", type: "movie", country: "Palestine",
+    genre: ["Resistance", "Satire"],
+    language: "Arabic", captions: true, runtime: "92 min",
+    platform: "Criterion Channel", access: "Paid", link: "https://www.criterionchannel.com",
+    awards: "Jury Prize, Cannes 2002",
+    note: "A surrealist love story set against Israeli checkpoints. The scene of a Palestinian woman walking past soldiers without breaking her stride has become iconic. Absurdist, poetic, and quietly furious."
+  },
+  {
+    title: "Caramel",
+    titleAr: "سكر بنات",
+    director: "Nadine Labaki",
+    year: 2007, decade: "2000s", type: "movie", country: "Lebanon",
+    genre: ["Drama", "Identity"],
+    language: "Arabic", captions: true, runtime: "95 min",
+    platform: "Netflix", access: "Paid", link: "https://www.netflix.com",
+    awards: "Audience Award, San Sebastián International Film Festival 2007",
+    note: "Five women in a Beirut beauty salon navigate love, tradition, and modernity. A warm, funny portrait of Lebanese womanhood — Labaki's most intimate film."
+  },
+  {
+    title: "Where Do We Go Now?",
+    titleAr: "هلأ لوين؟",
+    director: "Nadine Labaki",
+    year: 2011, decade: "2010s", type: "movie", country: "Lebanon",
+    genre: ["Folk", "Satire"],
+    language: "Arabic", captions: true, runtime: "110 min",
+    platform: "Netflix", access: "Paid", link: "https://www.netflix.com",
+    awards: "People's Choice Award, Toronto International Film Festival 2011",
+    note: "Women of a remote Lebanese village conspire — with song, hashish, and absurdist theatre — to prevent their men from reigniting sectarian violence. Audacious and deeply human."
+  },
+  {
+    title: "Capernaum",
+    titleAr: "كفرناحوم",
+    director: "Nadine Labaki",
+    year: 2018, decade: "2010s", type: "movie", country: "Lebanon",
+    genre: ["Drama", "Political"],
+    language: "Arabic", captions: true, runtime: "121 min",
+    platform: "Netflix", access: "Paid", link: "https://www.netflix.com",
+    awards: "Jury Prize, Cannes 2018; Academy Award-nominated for Best Foreign Language Film",
+    note: "A 12-year-old Beirut boy sues his parents for giving him life. Shot with non-professional actors drawn from the city's margins. Raw, structurally daring, and impossible to shake."
+  },
+  {
+    title: "The Night of the Counting of the Years",
+    titleAr: "المومياء",
+    director: "Shadi Abdel Salam",
+    year: 1969, decade: "1960s", type: "movie", country: "Egypt",
+    genre: ["Identity", "Folk"],
+    language: "Classical Arabic", captions: true, runtime: "102 min",
+    platform: "YouTube", access: "Free", link: "https://www.youtube.com",
+    awards: "Silver Hugo, Chicago International Film Festival 1969",
+    note: "A young man's moral crisis when his Upper Egyptian clan sells royal antiquities from undiscovered tombs. Shot like a hieroglyph in motion — glacial pace, extraordinary images, haunting score."
+  },
+  {
+    title: "Incendies",
+    titleAr: "الحرائق",
+    director: "Denis Villeneuve",
+    year: 2010, decade: "2010s", type: "movie", country: "Lebanon",
+    genre: ["War & Memory", "Drama"],
+    language: "Arabic / French", captions: true, runtime: "130 min",
+    platform: "Amazon Prime Video", access: "Paid", link: "https://www.amazon.com/primevideo",
+    awards: "Academy Award-nominated; Prix Jutra Best Film 2011",
+    note: "Twins retrace their mother's wartime journey in a fictional country drawn unmistakably from Lebanon's civil war. Based on Wajdi Mouawad's play — operatic in scope, devastating in its final revelation."
+  },
+  {
+    title: "The Lebanese Rocket Society",
+    titleAr: "جمعية الصاروخ اللبناني",
+    director: "Joana Hadjithomas & Khalil Joreige",
+    year: 2012, decade: "2010s", type: "documentary", country: "Lebanon",
+    genre: ["Identity", "Political"],
+    language: "Arabic", captions: true, runtime: "93 min",
+    platform: "Mubi", access: "Paid", link: "https://mubi.com",
+    awards: "Best Documentary, Arab Film Festival San Francisco",
+    note: "Lebanon almost had a space program in the 1960s. This documentary recovers that lost optimism — part history, part elegy for what the region once dared to dream of before it all collapsed."
+  },
+  {
+    title: "It Must Be Heaven",
+    titleAr: "لا بد أنه الجنة",
+    director: "Elia Suleiman",
+    year: 2019, decade: "2010s", type: "movie", country: "Palestine",
+    genre: ["Exile", "Satire"],
+    language: "Arabic / French / English", captions: true, runtime: "102 min",
+    platform: "Mubi", access: "Paid", link: "https://mubi.com",
+    awards: "Special Jury Prize, Cannes 2019; FIPRESCI Prize",
+    note: "Suleiman wanders from Nazareth to Paris to New York looking for a new homeland, only to find Palestine everywhere he goes. Comic, melancholy, and deeply strange — his most accessible film."
+  },
+  {
+    title: "200 Meters",
+    titleAr: "٢٠٠ متر",
+    director: "Ameen Nayfeh",
+    year: 2020, decade: "2020s", type: "movie", country: "Palestine",
+    genre: ["Resistance", "Drama"],
+    language: "Arabic", captions: true, runtime: "96 min",
+    platform: "Amazon Prime Video", access: "Paid", link: "https://www.amazon.com/primevideo",
+    awards: "Best Film, Arab Cinema Days 2020",
+    note: "A Palestinian father separated from his family by 200 meters of the Wall crosses illegally when his son is hospitalized. Tense, humanist, and quietly furious about the geometry of occupation."
+  },
+  {
+    title: "Kasak Ya Watan",
+    titleAr: "كأسك يا وطن",
+    director: "Ziad Rahbani",
+    year: 1979, decade: "1970s", type: "musical", country: "Lebanon",
+    genre: ["Satire", "Political"],
+    language: "Lebanese Arabic", captions: false, runtime: "~150 min",
+    platform: "YouTube", access: "Free", link: "https://www.youtube.com",
+    awards: "A landmark of Lebanese political theatre",
+    note: "Ziad Rahbani's searing musical set in a bar during the civil war. Characters drink and argue about ideology while bombs fall outside. Radical, hilarious, and completely of its moment — and ours."
+  },
+  {
+    title: "Bab al-Hara",
+    titleAr: "باب الحارة",
+    director: "Bassam al-Malla",
+    year: 2006, decade: "2000s", type: "play", country: "Syria",
+    genre: ["Folk", "Resistance"],
+    language: "Syrian Arabic", captions: false, runtime: "45 min / episode",
+    platform: "YouTube", access: "Free", link: "https://www.youtube.com",
+    awards: "Most-watched drama series in Arab television history",
+    note: "Set in a Damascus neighbourhood under the French Mandate. Became a pan-Arab cultural phenomenon — nostalgia, resistance, and community memory on an epic scale."
+  },
+  {
+    title: "Ghawwar al-Tosheh",
+    titleAr: "غوار الطوشة",
+    director: "Khaled Al-Menayes",
+    year: 1967, decade: "1960s", type: "play", country: "Syria",
+    genre: ["Satire", "Folk"],
+    language: "Syrian Arabic", captions: false, runtime: "30 min / episode",
+    platform: "YouTube", access: "Free", link: "https://www.youtube.com",
+    awards: "Foundational institution of Syrian television comedy",
+    note: "Duraid Lahham's most beloved character — the bumbling, street-smart everyman who satirized bureaucracy and corruption in Ba'athist Syria with remarkable audacity and affection."
+  },
+  {
+    title: "The Band's Visit",
+    titleAr: "بيقاعبلو",
+    director: "Eran Kolirin",
+    year: 2007, decade: "2000s", type: "movie", country: "Palestine",
+    genre: ["Drama", "Identity"],
+    language: "Arabic / Hebrew / English", captions: true, runtime: "87 min",
+    platform: "Mubi", access: "Paid", link: "https://mubi.com",
+    awards: "7 Israeli Academy Awards; also a Tony-winning Broadway musical",
+    note: "An Egyptian police band stranded overnight in a tiny Israeli-Arab town. A film about longing, humiliation, and the strange human connections that cross every border."
+  },
+  {
+    title: "Wajib",
+    titleAr: "واجب",
+    director: "Annemarie Jacir",
+    year: 2017, decade: "2010s", type: "movie", country: "Palestine",
+    genre: ["Identity", "Drama"],
+    language: "Arabic", captions: true, runtime: "96 min",
+    platform: "Mubi", access: "Paid", link: "https://mubi.com",
+    awards: "Best Film, Dubai International Film Festival 2017",
+    note: "A Palestinian father and his estranged son hand-deliver wedding invitations in Nazareth over one long day. A film about duty, memory, and what fathers and sons cannot say to each other across a generation of distance."
+  },
+  {
+    title: "Galerie des Glaces",
+    titleAr: "قاعة المرايا",
+    director: "Roger Assaf",
+    year: 1982, decade: "1980s", type: "play", country: "Lebanon",
+    genre: ["War & Memory", "Political"],
+    language: "Arabic / French", captions: false, runtime: "~120 min",
+    platform: "Archive / Film Lebanon", access: "Free", link: "https://filmlebanon.com",
+    awards: "Foundational work of Lebanese experimental theatre",
+    note: "Roger Assaf's experimental theatre company Hakawati redefined Arab political performance during the civil war. Performed in bombed buildings and refugee camps — theatre as witness and survival."
+  },
+  {
+    title: "Leila and the Wolves",
+    titleAr: "ليلى والذئاب",
+    director: "Heiny Srour",
+    year: 1984, decade: "1980s", type: "documentary", country: "Lebanon",
+    genre: ["Resistance", "Identity"],
+    language: "Arabic", captions: true, runtime: "90 min",
+    platform: "Archive.org", access: "Free", link: "https://archive.org",
+    awards: "Special mention, Berlin International Film Festival 1984",
+    note: "A pioneering feminist documentary tracing Palestinian and Lebanese women's hidden role in resistance movements from the 1920s to 1982. One of the first Arab feminist films — urgent and ahead of its time."
+  },
+  {
+    title: "Terra Incognita",
+    titleAr: "أرض مجهولة",
+    director: "Ghassan Salhab",
+    year: 2002, decade: "2000s", type: "movie", country: "Lebanon",
+    genre: ["Identity", "Exile"],
+    language: "Arabic / French", captions: true, runtime: "91 min",
+    platform: "Mubi", access: "Paid", link: "https://mubi.com",
+    awards: "NETPAC Award, Rotterdam International Film Festival 2003",
+    note: "A group of Beirut intellectuals drift through post-war ennui and unprocessed trauma. Salhab's cinema is Lebanese melancholy distilled — ghost cities, phantom memories, beautiful and unresolved."
+  }
+];
+
+let activeGenre = '';
+
+function setGenre(g) {
+  activeGenre = g;
+  document.querySelectorAll('.chip').forEach(c => {
+    const label = c.textContent.trim();
+    c.classList.toggle('active', (g === '' && label === 'All') || label === g);
+  });
+  applyFilters();
+}
+
+function countryClass(c) {
+  return { Lebanon:'lb', Syria:'sy', Palestine:'ps', Egypt:'eg', Jordan:'jo' }[c] || '';
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const type = document.getElementById('typeFilter').value;
+  const decade = document.getElementById('decadeFilter').value;
+  const country = document.getElementById('countryFilter').value;
+  const access = document.getElementById('accessFilter').value;
+
+  const filtered = FILMS.filter(f => {
+    const matchSearch = !q ||
+      f.title.toLowerCase().includes(q) ||
+      f.director.toLowerCase().includes(q) ||
+      (f.note && f.note.toLowerCase().includes(q)) ||
+      (f.titleAr && f.titleAr.includes(q));
+    const matchType = !type || f.type === type;
+    const matchDecade = !decade || f.decade === decade;
+    const matchCountry = !country || f.country === country;
+    const matchAccess = !access || f.access === access;
+    const matchGenre = !activeGenre || (f.genre && f.genre.includes(activeGenre));
+    return matchSearch && matchType && matchDecade && matchCountry && matchAccess && matchGenre;
+  });
+
+  document.getElementById('countDisplay').textContent = filtered.length;
+  const grid = document.getElementById('cardGrid');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="no-results">No titles match your filters — try broadening your search.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(f => {
+    const typeLabel = { movie:'Film', documentary:'Documentary', play:'Theatre', musical:'Musical' }[f.type] || f.type;
+    return `
+    <article class="film-card">
+      <span class="card-type-badge ${f.type}">${typeLabel}</span>
+      <h2 class="card-title">${f.title}</h2>
+      ${f.titleAr ? `<p class="card-title-ar">${f.titleAr}</p>` : ''}
+      <div class="card-meta-row">
+        <span class="meta-pill ${countryClass(f.country)}">${f.country}</span>
+        <span class="meta-pill">${f.year}</span>
+        <span class="meta-pill">${f.language}</span>
+        ${f.runtime ? `<span class="card-runtime">${f.runtime}</span>` : ''}
+      </div>
+      <div class="card-meta-row">
+        <span class="meta-pill">Dir. ${f.director}</span>
+        ${f.captions ? `<span class="cc-badge">Captions</span>` : ''}
+      </div>
+      ${f.genre && f.genre.length ? `<div class="card-meta-row">${f.genre.map(g=>`<span class="meta-pill">${g}</span>`).join('')}</div>` : ''}
+      ${f.note ? `<p class="card-note">${f.note}</p>` : ''}
+      ${f.awards ? `<p class="card-awards">${f.awards}</p>` : ''}
+      <div class="card-footer">
+        <span class="card-platform">${f.platform}</span>
+        <span class="card-access ${f.access.toLowerCase()}">${f.access}</span>
+      </div>
+      ${f.link ? `<a class="card-link" href="${f.link}" target="_blank">Watch / Stream →</a>` : ''}
+    </article>`;
+  }).join('');
+}
+
+applyFilters();
+</script>
+</body>
+</html>
